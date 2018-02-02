@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.migang.admin.dao.AdminMenuDao">
+	 <!-- 新增管理菜单数据 -->
+	 <insert id="addAdminMenu" parameterType="AdminMenu" useGeneratedKeys="true" keyProperty="id">
+	 		INSERT INTO mg_admin_menu
+	 			 (name, parentid, url, status)
+	 		VALUES
+	 			(#{name}, #{parentId}, #{url}, #{status})
+	 </insert>
+	
+	<!-- 获取用户菜单列表数据 -->
+	<select id="getMenuList" resultType="AdminMenu">
+			SELECT * FROM mg_admin_menu WHERE status IN(0, 1) ORDER BY id DESC 
+	</select>
+
+	<!-- 更新用户菜单数据 -->
+	<update id="editAdminMenu" parameterType="AdminRole">
+		UPDATE mg_admin_menu
+		<trim prefix="set" suffixOverrides=",">
+			<if test=" id != null "> id = #{id},</if>
+			<if test=" name != null "> name = #{name},</if>
+			<if test=" url != null "> url = #{url},</if>
+			<if test=" parentId != null "> parentid = #{parentId},</if>	
+			<if test=" status != null "> status = #{status},</if>			
+		</trim>
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

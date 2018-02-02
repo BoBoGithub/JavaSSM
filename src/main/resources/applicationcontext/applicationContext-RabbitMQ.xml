@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"  
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+xmlns:context="http://www.springframework.org/schema/context"  
+xmlns:rabbit="http://www.springframework.org/schema/rabbit"  
+xsi:schemaLocation="  
+      http://www.springframework.org/schema/beans  
+      http://www.springframework.org/schema/beans/spring-beans.xsd  
+      http://www.springframework.org/schema/context  
+      http://www.springframework.org/schema/context/spring-context.xsd  
+      http://www.springframework.org/schema/rabbit
+      http://www.springframework.org/schema/rabbit/spring-rabbit-1.7.xsd"> 
+        
+	<!-- 连接 RabbitMQ 服务器 -->
+	<rabbit:connection-factory id="connectionRabbitFactory" host="${rabbitMq.host}" username="${rabbitMq.username}" password="${rabbitMq.password}" port="${rabbitMq.port}"  virtual-host="${rabbitMq.vhost}" publisher-confirms="true"/>
+	<rabbit:admin connection-factory="connectionRabbitFactory"/>
+
+
+	<!--  声明 Fanout RabbitMQ Template -->
+	<rabbit:template id="amqpTemplate" exchange="${rabbitMq.exchange.fanout}" connection-factory="connectionRabbitFactory"  />
+
+	<!-- 声明 发布/订阅队列 -->
+	<rabbit:queue id="${rabbitMq.queue.fanout}" name="${rabbitMq.queue.fanout}" durable="true" auto-delete="false" exclusive="false" />
+	<rabbit:queue id="${rabbitMq.queue.fanout}.2" name="${rabbitMq.queue.fanout}.2" durable="true" auto-delete="false" exclusive="false" />
+
+	<!-- 声明一个Fanout交换机 -->
+	<rabbit:fanout-exchange name="${rabbitMq.exchange.fanout}" durable="true" auto-delete="false">
+	    <rabbit:bindings>
+	        <!-- 绑定队列 -->
+	        <rabbit:binding queue="${rabbitMq.queue.fanout}" />
+	        <rabbit:binding queue="${rabbitMq.queue.fanout}.2" />
+	    </rabbit:bindings>
+	</rabbit:fanout-exchange>	
+	
+	
+	<!--  声明 Direct RabbitMQ Template -->
+	<rabbit:template id="amqpTemplateDirect" exchange="${rabbitMq.exchange.direct}" connection-factory="connectionRabbitFactory" confirm-callback="confirmCallBackListener" return-callback="returnCallBackListener" mandatory="true" />
+	
+	<!-- 声明 点对点队列 -->
+	<rabbit:queue id="${rabbitMq.queue.direct}" name="${rabbitMq.queue.direct}" durable="true" auto-delete="false" exclusive="false" />
+
+	<!-- 声明一个Direct交换机 -->
+	<rabbit:direct-exchange name="${rabbitMq.exchange.direct}" durable="true" auto-delete="false">
+	    <rabbit:bindings>
+	        <!-- 设置点对点类型 -->
+	        <rabbit:binding queue="${rabbitMq.queue.direct}"  key="${rabbitMq.queue.direct.key}"/>
+	    </rabbit:bindings>
+	</rabbit:direct-exchange>
+	
+	
+	<!--  声明 Topic RabbitMQ Template -->
+	<rabbit:template id="amqpTemplateTopic" exchange="${rabbitMq.exchange.topic}" connection-factory="connectionRabbitFactory"  />
+	
+	<!-- 声明 topic队列 -->
+	<rabbit:queue id="${rabbitMq.queue.topic}" name="${rabbitMq.queue.topic}" durable="true" auto-delete="false" exclusive="false" />
+
+	<!-- 声明一个交换机 -->
+	<rabbit:topic-exchange name="${rabbitMq.exchange.topic}" durable="true" auto-delete="false">
+	    <rabbit:bindings>
+	    	<!-- 绑定队列 -->
+	        <rabbit:binding queue="${rabbitMq.queue.topic}" pattern="#.user.#"/>
+	    </rabbit:bindings>
+	</rabbit:topic-exchange>
+		
+
+	<!-- 配置接收监听 -->
+	<rabbit:listener-container connection-factory="connectionRabbitFactory" acknowledge="manual">	
+		<!-- 处理发布/订阅队列  -->
+		<rabbit:listener queues="${rabbitMq.queue.fanout}" ref="rabbitＭqFanoutService"/>
+		<!-- 可配置多个任务处理Service，是一个一个处理的 -->
+		<rabbit:listener queues="${rabbitMq.queue.fanout}.2" ref="rabbitＭqFanoutService2"/>
+		
+		<!-- 处理点对点队列  -->
+		<rabbit:listener queues="${rabbitMq.queue.direct}" ref="rabbitＭqDirectService"/>
+		
+		<!-- 处理Topic匹配队列 -->
+		<rabbit:listener queues="${rabbitMq.queue.topic}" ref="rabbitMqTopicService"/>
+	</rabbit:listener-container>
+	
+</beans>

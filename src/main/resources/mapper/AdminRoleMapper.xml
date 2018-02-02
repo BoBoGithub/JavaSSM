@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.migang.admin.dao.AdminRoleDao">
+	 <!-- 新增用户角色数据 -->
+	 <insert id="addAdminUserRole" parameterType="AdminRole" useGeneratedKeys="true" keyProperty="roleId">
+	 		INSERT INTO mg_admin_role
+	 			 (rolename, roledesc, status)
+	 		VALUES
+	 			(#{roleName}, #{roleDesc}, #{status})
+	 </insert>
+	
+	<!-- 获取用户角色列表数据 -->
+	<select id="getRoleList" parameterType="java.util.Map" resultType="AdminRole">
+			SELECT * FROM mg_admin_role
+			<where>
+				<if test="status != null">
+					 AND status IN
+					 <foreach collection="status" index="index" item="item" open="(" separator="," close=")">
+				        #{item}
+				    </foreach>
+				</if>
+			</where>
+			ORDER BY roleid DESC 
+			LIMIT #{offset}, #{pageSize}
+	</select>
+	
+	<!-- 查询用户总条数 -->
+	<select id="getCountRoleNum" parameterType="java.util.Map" resultType="java.lang.Integer">
+			SELECT COUNT(*) FROM mg_admin_role
+			<where>
+				<if test="status != null">
+					 AND status IN
+					 <foreach collection="status" index="index" item="item" open="(" separator="," close=")">
+				        #{item}
+				    </foreach>
+				</if>
+			</where>
+	</select>
+	
+	<!-- 查询用户指定id的角色数据 -->
+	<select id="getRoleById" parameterType="Integer" resultType="AdminRole">
+			SELECT * FROM mg_admin_role WHERE roleid = #{roleId}
+	</select>
+	
+	<!-- 更新用户角色数据 -->
+	<update id="editRoleById" parameterType="AdminRole">
+		UPDATE mg_admin_role 
+		<trim prefix="set" suffixOverrides=",">
+			<if test=" roleId != null "> roleid = #{roleId},</if>
+			<if test=" roleName != null "> rolename = #{roleName},</if>
+			<if test=" roleDesc != null "> roledesc = #{roleDesc},</if>
+			<if test=" status != null "> status = #{status},</if>			
+		</trim>
+		WHERE roleid = #{roleId}
+	</update>
+	
+</mapper>

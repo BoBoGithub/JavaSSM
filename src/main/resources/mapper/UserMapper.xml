@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.migang.admin.dao.UserDao">
+	 	<!-- 查询条件的sql片段 -->  
+	 	<sql id="queryListWhere">  
+				<if test="uid != null and uid != 0"> AND uid = #{uid}</if>
+				<if test="mobile != null"> AND mobile = #{mobile}</if>
+
+				<!-- 设置是否实名条件 -->
+				<if test="shenfenAuth == 1"> AND shenfen_auth > 0</if>
+				<if test="shenfenAuth == 2"> AND shenfen_auth = 0</if>
+				<if test="huotiAuth == 1"> AND huoti_auth > 0</if>
+				<if test="huotiAuth == 2"> AND huoti_auth = 0</if>
+				
+				<!-- 设置是否完善信息条件 -->
+				<if test="personAuth == 1"> AND person_auth > 0</if>
+				<if test="personAuth == 2"> AND person_auth = 0</if>	
+				<if test="jobAuth == 1"> AND job_auth > 0</if>
+				<if test="jobAuth == 2"> AND job_auth = 0</if>
+				<if test="contactsAuth == 1"> AND contacts_auth > 0</if>
+				<if test="contactsAuth == 2"> AND contacts_auth = 0</if>				
+				
+				<!-- 设置手机号是否认证条件 -->
+				<if test="mobileAuth == 1"> AND mobile_auth > 0</if>
+				<if test="mobileAuth == 2"> AND mobile_auth = 0</if>
+				
+				<!-- 设置银行卡号是否认证条件 -->
+				<if test="bandcardAuth == 1"> AND bandcard_auth > 0</if>
+				<if test="bandcardAuth == 2"> AND bandcard_auth = 0</if>
+				
+				<!-- 设置省份地区条件 -->
+				<if test="province != null and province != 0"> AND province = #{province}</if>
+				<if test="city != null and city != 0"> AND city = #{city}</if>
+				<if test="district != null and district != 0"> AND district = #{district}</if>
+				
+				<!-- 设置注册时间条件 -->
+				<if test="regStartTime > 0">
+					<![CDATA[  AND ctime >= #{regStartTime} ]]>  
+				</if>
+				<if test="regEndTime > 0">
+						<![CDATA[  AND ctime <= #{regEndTime} ]]>  
+				</if>
+	 	</sql>  
+
+
+	<!-- 查询指定用户的信息 -->
+	<select id="getUserByUid"  resultType="User"  parameterType="long">
+		SELECT * FROM mg_user WHERE uid = #{uid}
+	</select>
+	
+	 <!-- 新增用户数据 -->
+	 <insert id="insertUserInfo" parameterType="User" useGeneratedKeys="true" keyProperty="uid">
+	 		INSERT INTO mg_user
+	 			 (mobile, password, encrypt, ctime, ip) 
+	 		VALUES
+	 			(#{mobile}, #{password}, #{encrypt}, #{ctime}, #{ip})
+	 </insert>
+	
+	<!-- 根据手机号查询用户数据 -->
+	<select id="getUserByUserMobile" resultType="User">
+			SELECT * FROM mg_user WHERE mobile = #{mobile}
+	</select>
+	
+	<!-- 更新用户联系人认证时间 -->
+	<update id="updateUserContactsAuth">
+		UPDATE mg_user SET contacts_auth = #{timeStamp} WHERE uid = #{uid}
+	</update>
+	
+	<!-- 更新用户职业认证时间 -->
+	<update id="updateUserJobAuth">
+		UPDATE mg_user SET job_auth = #{timeStamp} WHERE uid = #{uid}
+	</update>
+	
+	<!-- 更新用户个人信息认证时间 -->
+	<update id="updateUserPersonAuth">
+		UPDATE mg_user SET person_auth = #{timeStamp} WHERE uid = #{uid}
+	</update>
+	
+	<!-- 更新用户手机认证时间 -->
+	<update id="updateUserMobileAuth">
+		UPDATE mg_user SET mobile_auth = #{timeStamp} WHERE uid = #{uid}
+	</update>
+	
+	<!-- 更新用户银行卡认证时间 -->
+	<update id="updateUserBankCardAuth">
+		UPDATE mg_user SET bandcard_auth = #{timeStamp} WHERE uid = #{uid}
+	</update>
+
+	<!-- 按条件查询借款用户数据列表 -->
+	<select id="getUserList"  parameterType="User" resultType="User">
+			SELECT * FROM mg_user 
+			<where>
+				<include refid="queryListWhere"></include>  
+			</where>
+			ORDER BY uid DESC
+			LIMIT #{offset}, #{pageSize}
+	</select>
+	
+	<!-- 按条件汇总用户总数 -->
+	<select id="countUserNum"  parameterType="User" resultType="int">
+			SELECT count(*) FROM mg_user 
+			<where>
+				<include refid="queryListWhere"></include>  
+			</where>
+	</select>
+	
+	<!-- 查询能指定用户的用户信息 -->
+	<select id="getUserByUids" parameterType="java.util.Map"  resultType="User">
+			SELECT * FROM mg_user  WHERE uid IN
+			<foreach collection="uids" index="index" item="item" open="(" separator="," close=")">  
+		        #{item}  
+		    </foreach> 
+	</select>
+	
+	<!-- 更新用户密码信息 -->
+	<update id="updateUserPwdByMobile" parameterType="User">
+		UPDATE mg_user
+		<trim prefix="set" suffixOverrides=",">
+				<if test=" mobile != null "> mobile = #{mobile},</if>
+				<if test=" password != null "> password = #{password},</if>
+				<if test=" encrypt != null "> encrypt = #{encrypt},</if>
+			</trim>
+	 		WHERE mobile = #{mobile}
+	</update>
+	
+	<!-- 更新用户信息 -->
+	<update id="updateUserInfoByUid" parameterType="User">
+		UPDATE mg_user
+		<trim prefix="set" suffixOverrides=",">
+				<if test=" uid != 0 "> uid = #{uid},</if>
+				<if test=" province != 0 "> province = #{province},</if>
+				<if test=" city != 0 "> city = #{city},</if>
+				<if test=" district != 0 "> district = #{district},</if>
+				<if test=" password != null "> password = #{password},</if>
+				<if test=" encrypt != null "> encrypt = #{encrypt},</if>
+				<if test=" personAuth != 0 "> person_auth = #{personAuth},</if>
+			</trim>
+	 		WHERE uid = #{uid}
+	</update>
+	
+</mapper>

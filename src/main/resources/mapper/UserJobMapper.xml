@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.migang.admin.dao.UserJobDao">
+	 <!-- 新增用户基本数据 -->
+	 <insert id="insertUserJobInfo" parameterType="UserJob" useGeneratedKeys="true" keyProperty="jobId">
+	 		INSERT INTO mg_user_job
+	 			 (uid, job_name, income, company, province, city, district, address, phone, ctime)
+	 		VALUES
+	 			(#{uid}, #{jobName}, #{income}, #{company}, #{province}, #{city}, #{district}, #{address}, #{phone}, #{ctime})
+	 </insert>
+	 
+	 <!-- 调取用户的职业信息 -->
+	 <select id="getUserJobInfoByUid" parameterType="Integer" resultType="UserJob">
+	 		SELECT * FROM mg_user_job WHERE uid = #{uid} ORDER BY job_id DESC LIMIT 1
+	 </select>
+	 
+</mapper>

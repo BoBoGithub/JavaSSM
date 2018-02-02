@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.migang.admin.dao.HelpFeedBackDao">
+	 <!-- 新增反馈数据 -->
+	 <insert id="addHelpFeedBack" parameterType="HelpFeedBack" useGeneratedKeys="true" keyProperty="feedBackId">
+	 		INSERT INTO mg_help_feedback
+	 			 (uid, udid, content, add_time)
+	 		VALUES
+	 			(#{uid}, #{udid}, #{content}, #{addTime})
+	 </insert>
+	 
+	 <select id="getFeedBackList" parameterType="Map" resultType="HelpFeedBack">
+	 	SELECT * FROM mg_help_feedback
+	 		<where>
+	 			<if test="feedBackId != null  and feedBackId != '' ">AND feedback_id=#{feedBackId}</if>
+				<if test="uid != null  and uid != '' ">AND uid=#{uid}</if>
+				<if test="udid != null  and udid != '' ">AND udid=#{udid}</if>
+				<if test="startTime != null  and startTime != '' "><![CDATA[ AND add_time >= #{startTime} ]]></if>
+				<if test="endTime != null  and endTime != '' "><![CDATA[ AND add_time <= #{endTime} ]]></if>
+	 		</where>
+	 		ORDER BY feedback_id DESC 
+	 		LIMIT #{offset}, #{pageSize}
+	 </select>
+	 
+	 <select id="counFeedBack" parameterType="Map" resultType="Integer">
+	 		SELECT COUNT(*)  FROM mg_help_feedback
+	 		<where>
+	 			<if test="feedBackId != null  and feedBackId != '' ">AND feedback_id=#{feedBackId}</if>
+				<if test="uid != null  and uid != 0 ">AND uid=#{uid}</if>
+				<if test="udid != null  and udid != '' ">AND udid=#{udid}</if>
+				<if test="startTime != null  and startTime != 0 "><![CDATA[ AND add_time >= #{startTime} ]]></if>
+				<if test="endTime != null  and endTime != 0 "><![CDATA[ AND add_time <= #{endTime} ]]></if>
+	 		</where>
+	 </select>
+	 
+</mapper>

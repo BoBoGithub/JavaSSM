@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.migang.admin.dao.BorrowRecordDao">
+	<!-- Sql片段 -->
+	<sql id="queryRecordListWhere">
+				<!-- 设置订单ID条件 -->
+	 			<if test="orderId != null  and orderId != ' ' ">AND brecord_id=#{orderId}</if>
+	 			<!-- 设置借款用户条件 -->
+	 			<if test="uid != null  and uid != ' ' ">AND uid=#{uid}</if>
+	 			<!-- 设置借款金额条件 -->
+	 			<if test="borrowMoney != null  and borrowMoney != ' ' ">AND borrow_money=#{borrowMoney}</if>
+	 			<!-- 设置借款期限条件 -->
+	 			<if test="borrowLimit != null  and borrowLimit != ' ' ">AND borrow_limit=#{borrowLimit}</if>
+	 			<!-- 设置订单状态条件 -->
+	 			<if test="orderStatus != null  and orderStatus != ' ' ">AND status=#{orderStatus}</if>
+				<!-- 设置申请开始时间 -->
+				<if test="applyStartTime != null  and applyStartTime != ' ' "><![CDATA[ AND apply_time >= #{applyStartTime} ]]></if>
+				<!-- 设置申请结束时间 -->
+				<if test="applyEndTime != null  and applyEndTime != ' ' "><![CDATA[ AND apply_time <= #{applyEndTime} ]]></if>
+				<!-- 设置审核类型条件 -->
+				<if test="checkType != null  and checkType != ' ' "><![CDATA[ AND check_type = #{checkType} ]]></if>
+				<!-- 设置操作人条件 -->
+				<if test="operater != null  and operater != 0 ">AND operater = #{operater}</if>
+				<!-- 设置最小数据评分 -->
+				<if test="scoreStart != null  and scoreStart != 0 "><![CDATA[ AND score >= #{scoreStart} ]]></if>
+				<!-- 设置最大数据评分 -->
+				<if test="scoreEnd != null  and scoreEnd != 0 "><![CDATA[ AND score <= #{scoreEnd} ]]></if>
+	</sql>
+	
+	<!-- 设置返回ResutMap -->
+	<resultMap id="sumRecordMap" type="java.util.Map">
+		<result column="uid" property="uid" javaType="String" jdbcType="INTEGER"/>
+        <result column="COUNT(*)" property="num" javaType="String" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	 <!-- 新增借款记录数据 -->
+	 <insert id="insertBorrowRecord" parameterType="BorrowRecord" useGeneratedKeys="true" keyProperty="brecordId">
+	 		INSERT INTO mg_borrow_record
+	 			 (uid, borrow_money, borrow_limit, borrow_interest, service_charge, apply_time, remark)
+	 		VALUES
+	 			(#{uid}, #{borrowMoney}, #{borrowLimit}, #{borrowInterest}, #{serviceCharge}, #{applyTime}, #{remark})
+	 </insert>
+	 
+	<!-- 获取用户最近的一条申请借款记录 -->
+	<select id="getLatelyBorrowRecordByUid" resultType="BorrowRecord">
+			SELECT * FROM mg_borrow_record WHERE uid = #{uid} AND status IN(4, 6, 7) ORDER BY brecord_id DESC LIMIT 1
+	</select>
+	 
+	 <!-- 查询最近的借款记录 -->
+	 <select id="getLatelyBorrowList" resultType="BorrowRecord">
+	 		SELECT * FROM mg_borrow_record WHERE status IN(0, 4,6,7) ORDER BY brecord_id ASC LIMIT #{limit}
+	 </select>
+	 
+	 <!-- 按条件查询借款记录列表 -->
+	 <select id="getBorrowList" parameterType="java.util.Map" resultType="BorrowRecord">
+	 		SELECT * FROM mg_borrow_record
+	 		<where>
+	 			<include refid="queryRecordListWhere"></include>  
+	 		</where>
+	 		ORDER BY brecord_id DESC 
+	 		LIMIT #{offset}, #{pageSize}
+	 </select>
+	 
+	 <!-- 按条件查询借款记录列表 -->
+	 <select id="countBorrowRecord" parameterType="java.util.Map" resultType="int">
+	 		SELECT COUNT(*) FROM mg_borrow_record
+	 		<where>
+	 			<include refid="queryRecordListWhere"></include>  
+	 		</where>
+	 </select>
+	 
+	 <!-- 按条件查询借款记录列表 -->
+	 <select id="sumRecordNumByUids" parameterType="java.util.Map" resultMap="sumRecordMap">
+	 		SELECT uid, COUNT(*) FROM mg_borrow_record WHERE uid IN
+			<foreach collection="uids" index="index" item="item" open="(" separator="," close=")">
+		        #{item}
+		    </foreach>
+		    GROUP BY uid
+	 </select>
+	 
+	 <!-- 调取指定借款id的订单数据 -->
+	 <select id="getBorrowRecordById" parameterType="Integer" resultType="BorrowRecord">
+	 		SELECT * FROM mg_borrow_record WHERE  brecord_id = #{orderId}
+	 </select>
+	 
+	 <!-- 更新订单审核状态 -->
+	 <update id="updBorrowRecordCheckStatus" parameterType="java.util.Map">
+	 		UPDATE mg_borrow_record 
+	 		<trim prefix="set" suffixOverrides=",">
+				<if test=" orderId != null "> brecord_id = #{orderId},</if>
+				<if test=" status != null "> status = #{status},</if>
+				<if test=" operater != null "> operater = #{operater},</if>
+				<if test=" checkTime != null "> check_time = #{checkTime},</if>
+				<if test=" realRepayTime != null "> real_repay_time = #{realRepayTime},</if>
+				<if test=" remark != '' and remark != null "> remark = #{remark},</if>
+			</trim>
+	 		WHERE brecord_id = #{orderId}
+	 </update>
+	 
+</mapper>

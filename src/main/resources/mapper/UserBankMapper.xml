@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.migang.admin.dao.UserBankDao">
+	 <!-- 新增用户联系人数据 -->
+	 <insert id="insertUserBankInfo" parameterType="UserBank" useGeneratedKeys="true" keyProperty="bankId">
+	 		INSERT INTO mg_user_bank
+	 			 (uid, bank_num, mobile, bank_name, bank_province, bank_city, card_type, ctime)
+	 		VALUES
+	 			(#{uid}, #{bankNum}, #{mobile}, #{bankName}, #{bankProvince}, #{bankCity}, #{cardType}, #{ctime})
+	 </insert>
+
+	 <!-- 查询指定用户银行信息 -->
+	 <select id="getUserBankByUid" resultType="UserBank">
+	 		SELECT * FROM mg_user_bank WHERE uid = #{uid} AND status = 0 AND card_type=0 ORDER BY bank_id DESC LIMIT 1
+	 </select>
+	 
+	<!-- 查询能指定用户的用户银行信息 -->
+	<select id="getUserBankByUids" parameterType="java.util.Map"  resultType="UserBank">
+			SELECT * FROM mg_user_bank  WHERE uid IN
+			<foreach collection="uids" index="index" item="item" open="(" separator="," close=")">  
+		        #{item}  
+		    </foreach> 
+	</select>
+	 
+</mapper>

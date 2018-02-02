@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.migang.admin.dao.UserLinkManDao">
+	 <!-- 新增用户联系人数据 -->
+	 <insert id="insertUserLinkManInfo" parameterType="UserLinkMan" useGeneratedKeys="true" keyProperty="linkManId">
+	 		INSERT INTO mg_user_linkman
+	 			 (uid, name, phone, relation, ctime, remark)
+	 		VALUES
+	 			(#{uid}, #{name}, #{phone}, #{relation}, #{ctime}, #{remark})
+	 </insert>
+	 
+	 <!-- 查询用户的联系人信息 -->
+	 <select id="getUserLinkManByUid" parameterType="Integer" resultType="UserLinkMan">
+	 		SELECT * FROM mg_user_linkman WHERE uid = #{uid} ORDER BY linkman_id ASC
+	 </select>
+	 
+</mapper>

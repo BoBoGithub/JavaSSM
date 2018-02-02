@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.migang.admin.dao.RepayRecordDao">
+
+	<!-- 查询还款记录数据 -->
+	 <select id="getRepayRecordByBid" resultType="RepayRecord">
+	 		SELECT * FROM mg_repay_record WHERE brecord_id = #{orderId}
+	 </select>
+	 
+</mapper>

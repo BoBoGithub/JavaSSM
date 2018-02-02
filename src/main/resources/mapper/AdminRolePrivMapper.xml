@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.migang.admin.dao.AdminRolePrivDao">
+	 <!-- 新增角色权限数据 -->
+	 <insert id="addAdminRolePriv" parameterType="AdminRolePriv" useGeneratedKeys="true" keyProperty="roleId">
+	 		INSERT INTO mg_admin_role_priv
+	 			 (roleid, url)
+	 		VALUES
+	 			(#{roleId}, #{url})
+	 </insert>
+	 
+	<!-- 查询指定id的角色权限数据 -->
+	<select id="getAdminRolePrivByRoleId" parameterType="Integer" resultType="AdminRolePriv">
+			SELECT * FROM mg_admin_role_priv WHERE roleid = #{roleId}
+	</select>
+	
+	<!-- 删除指定角色的菜单数据 -->
+	<delete id="delPrivByRoleId" parameterType="Integer">
+		DELETE FROM mg_admin_role_priv WHERE roleid = #{roleId}
+	</delete>
+	
+	<!-- 批量插入角色权限数据 -->
+	<insert id="batchInsertRolePriv" parameterType="java.util.List">
+		INSERT INTO mg_admin_role_priv (roleid, url) VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+	      ( #{item.roleId}, #{item.url})
+	  </foreach>
+	</insert>
+
+	<!-- 查询指定 角色＋指定URL 的权限数据 -->
+	<select id="getRolePrivByRoleIdUrl" resultType="AdminRolePriv">
+			SELECT * FROM mg_admin_role_priv WHERE roleid = #{roleId} AND url = #{url}
+	</select>
+	
+</mapper>

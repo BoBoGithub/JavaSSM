@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.migang.admin.dao.AdminUserDao">
+	<!-- 查询指定用户的管理信息 -->
+	<select id="getAdminUserByUid"  resultType="AdminUser"  parameterType="long">
+		SELECT * FROM mg_admin WHERE uid = #{uid}
+	</select>
+	
+	 <!-- 新增用户数据 -->
+	 <insert id="insertAdminUserInfo" parameterType="AdminUser">
+	 		INSERT INTO mg_admin
+	 			 (username, password, encrypt, email, realname, ctime, roleid) 
+	 		VALUES
+	 			(#{username}, #{password}, #{encrypt}, #{email}, #{realname}, #{ctime}, #{roleId})
+	 </insert>
+	 
+	 <!-- 给用户分配角色 -->
+	 <update id="updAdminUserRoleByUid" >
+	 		UPDATE mg_admin SET  roleid = #{roleId} WHERE uid = #{uid}
+	 </update>
+	 
+	 <!-- 更新管理用户信息 -->
+	 <update id="updAdminUserByUid" parameterType="AdminUser">
+	 		UPDATE mg_admin 
+	 		<trim prefix="set" suffixOverrides=",">
+				<if test=" uid != null "> uid = #{uid},</if>
+				<if test=" username != null "> username = #{username},</if>
+				<if test=" password != null "> password = #{password},</if>
+				<if test=" encrypt != null "> encrypt = #{encrypt},</if>
+				<if test=" realname != null "> realname = #{realname},</if>	
+				<if test=" status != null "> status = #{status},</if>
+				<if test=" email != null "> email = #{email},</if>
+				<if test=" roleId != null and roleId != 0 "> roleid = #{roleId},</if>
+			</trim>
+	 		WHERE uid = #{uid}
+	 </update>
+	
+	<!-- 根据用户名查询用户数据 -->
+	<select id="getAdminUserByUserName" resultType="AdminUser">
+			SELECT * FROM mg_admin WHERE username = #{username}
+	</select>
+	
+	<!-- 获取用户列表数据 -->
+	<select id="getAdminUserList" resultType="AdminUser">
+			SELECT * FROM mg_admin  WHERE
+			<if test="username != null and username != ''">
+				 username = #{username} AND 
+			</if>
+			status IN(0, 1)
+			ORDER BY uid DESC 
+			LIMIT #{page}, #{pageSize}
+	</select>
+	
+	<!-- 查询用户总条数 -->
+	<select id="getTotalUserNum" resultType="java.lang.Integer">
+			SELECT COUNT(*) FROM mg_admin WHERE
+			<if test="username != null and username != ''">
+				 username = #{username} AND 
+			</if>
+			status IN(0, 1)
+	</select>
+	
+	<!-- 获取指定角色的用户列表数据 -->
+	<select id="getAdminUserListByRoleId" resultType="AdminUser">
+			SELECT * FROM mg_admin WHERE roleid = #{roleId} ORDER BY uid DESC LIMIT #{page}, #{pageSize}
+	</select>
+	
+	<!-- 查询指定角色用户总条数 -->
+	<select id="getTotalUserNumByRoleId" resultType="java.lang.Integer">
+			SELECT COUNT(*) FROM mg_admin WHERE roleid = #{roleId}
+	</select>
+	
+</mapper>

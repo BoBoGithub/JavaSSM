@@ -1,0 +1,138 @@
+.ui-sortable .ibox-title {
+  cursor: move;
+}
+
+.ibox-title h1,
+.ibox-title h2,
+.ibox-title h3,
+.ibox-title h4,
+.ibox-title h5 {
+  margin-top: 5px;
+}
+
+.ibox-title {
+  -moz-border-bottom-colors: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  background-color: #ffffff;
+  border-color: #e7eaec;
+  border-image: none;
+  border-style: solid solid none;
+  border-width: 3px 0 0;
+  color: inherit;
+  margin-bottom: 0;
+  padding: 14px 15px 7px;
+  min-height: 48px;
+}
+
+.ibox-title h5 {
+  display: inline-block;
+  font-size: 14px;
+  margin: 0 0 7px;
+  padding: 0;
+  text-overflow: ellipsis;
+  float: left;
+}
+.ibox-title .label {
+  float: left;
+  margin-left: 4px;
+}
+
+body.rtls .ibox-title h5 {
+  float: right;
+}
+
+.skin-1 .ibox-title,
+.skin-1 .ibox-content {
+  border-width: 1px;
+}
+
+.skin-2 .ibox-title {
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  margin-bottom: 1px;
+}
+
+.skin-2 .ibox-title,
+.skin-2 .ibox-content {
+  border-width: 1px;
+}
+
+.resizable-panels .ibox .ibox-content {
+  height: calc(100% - 49px);
+}
+
+.ibox-content h1,
+.ibox-content h2,
+.ibox-content h3,
+.ibox-content h4,
+.ibox-content h5,
+.ibox-title h1,
+.ibox-title h2,
+.ibox-title h3,
+.ibox-title h4,
+.ibox-title h5 {
+  margin-top: 5px;
+}
+
+.ibox-content.text-box {
+  padding-bottom: 0;
+  padding-top: 15px;
+}
+
+.ibox.collapsed .ibox-content {
+  display: none;
+}
+
+.ibox-content {
+  background-color: #ffffff;
+  color: inherit;
+  padding: 15px 20px 20px 20px;
+  border-color: #e7eaec;
+  border-image: none;
+  border-style: solid solid none;
+  border-width: 1px 0;
+}
+
+.ibox-content {
+  clear: both;
+}
+
+}
+.ibox.fullscreen .ibox-content {
+  min-height: calc(100% - 48px);
+}
+
+.chat-view .ibox-content {
+  padding: 0;
+}
+
+.article .ibox-content {
+  padding: 40px;
+}
+
+.product-detail .ibox-content {
+  padding: 30px 30px 50px 30px;
+}
+
+.skin-1 .ibox-content:last-child {
+  border-style: solid solid solid solid;
+}
+
+.skin-2 .ibox-content {
+  background: rgba(255, 255, 255, 0.4);
+  border: none !important;
+}
+
+.skin-2 .ibox-content:last-child {
+  border-style: solid solid solid solid;
+}
+
+.skin-3 .ibox-content:last-child {
+  border-style: solid solid solid solid;
+}
+
+body.rtls .pull-left {
+  float: right !important;
+}

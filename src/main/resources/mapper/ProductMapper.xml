@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.migang.admin.dao.ProductDao">
+	 <!-- 新增用户基本数据 -->
+	 <insert id="addProduct" parameterType="Product" useGeneratedKeys="true" keyProperty="productId">
+	 		INSERT INTO mg_product
+	 			 (product_name, borrow_money, borrow_limit, day_rate, service_charge, status)
+	 		VALUES
+	 			(#{productName}, #{borrowMoney}, #{borrowLimit}, #{dayRate}, #{serviceCharge}, #{status})
+	 </insert>
+
+	<!-- 查询产品列表 -->
+	<select id="getProductList" resultType="Product">
+			SELECT * FROM mg_product WHERE status IN(0, 1) ORDER BY product_id DESC LIMIT #{offset}, #{pageSize}
+	</select>
+	
+	<!-- 汇总产品总条数 -->
+	<select id="countProductNum" resultType="Integer">
+			SELECT COUNT(*) FROM mg_product WHERE status IN(0, 1)
+	</select>
+	
+	<!-- 查询指定产品的数据 -->
+	<select id="getProductById" resultType="Product">
+			SELECT * FROM mg_product WHERE product_id = #{productId}
+	</select>
+	
+	<!-- 更新产品信息 -->
+	<update id="updProductById" parameterType="Product">
+			UPDATE mg_product 
+			<trim prefix="set" suffixOverrides=",">
+				<if test=" productName != null "> product_name = #{productName},</if>
+				<if test=" borrowMoney != 0 "> borrow_money = #{borrowMoney},</if>
+				<if test=" borrowLimit != 0 "> borrow_limit = #{borrowLimit},</if>
+				<if test=" dayRate != 0 "> day_rate = #{dayRate},</if>
+				<if test=" serviceCharge != 0 "> service_charge = #{serviceCharge},</if>
+				<if test=" status != '' "> status = #{status},</if>
+			</trim>
+	 		WHERE product_id = #{productId}
+	</update>
+	
+	<!-- 更新产品状态 -->
+	<update id="updProductStatusById">
+			UPDATE mg_product SET status = #{status} WHERE product_id = #{productId} AND status >= 0
+	</update>
+	 
+</mapper>
