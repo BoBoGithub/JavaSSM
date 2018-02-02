@@ -30,6 +30,10 @@
 
 2. 根据自己环境修改配置文件
 
+```
+ bobo@migang:admin$ vim profiles/dev.properties
+```
+
 <img src="https://github.com/BoBoGithub/JavaSSM/blob/master/image/Config.png?raw=true">
 
 3. 编译打包
