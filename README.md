@@ -16,3 +16,12 @@
 <img src="https://github.com/BoBoGithub/JavaSSM/blob/master/image/MenuManager.png?raw=true">
 <img src="https://github.com/BoBoGithub/JavaSSM/blob/master/image/MenuAdd.png?raw=true">
 <img src="https://github.com/BoBoGithub/JavaSSM/blob/master/image/ApiInterface.png?raw=true">
+
+## 3. 安装
+
+1. 创建程序存放目录
+
+```
+   mkdir /var/www/admin
+   git clone https://github.com/BoBoGithub/JavaSSM.git
+```
