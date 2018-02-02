@@ -42,6 +42,8 @@
  bobo@migang:admin$ cd target/
  bobo@migang:admin$ mv admin.war /usr/local/tomcat/webapps
 ```
+<img src="https://github.com/BoBoGithub/JavaSSM/blob/master/image/pack.png?raw=true">
+
 4. 启动Tomcat服务器运行
 ```
  bobo@migang:admin$ cd /usr/local/tomcat/bin/
@@ -49,3 +51,5 @@
 ```
 
 5. 浏览器访问 http://localhost:8080/admin
+
+<img src="https://github.com/BoBoGithub/JavaSSM/blob/master/image/Login.png?raw=true">
