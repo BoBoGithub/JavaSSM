@@ -35,7 +35,17 @@
 3. 编译打包
 
 ```
- /**  -Pdev 开发环境包   | -Ptest 测试环境包  | -Ponline 线上环境包  **/
+ 参数说明：-Pdev 开发环境包   | -Ptest 测试环境包  | -Ponline 线上环境包
  
- bobo@migang:admin$ mvn clean package -Pdev  -Dmaven.test.skip=true 
+ bobo@migang:admin$ mvn clean package -Pdev  -Dmaven.test.skip=true
+ bobo@migang:admin$ 
+ bobo@migang:admin$ cd target/
+ bobo@migang:admin$ mv admin.war /usr/local/tomcat/webapps
 ```
+4. 启动Tomcat服务器运行
+```
+ bobo@migang:admin$ cd /usr/local/tomcat/bin/
+ bobo@migang:admin$ ./startup.sh
+```
+
+5. 浏览器访问 http://localhost:8080/admin

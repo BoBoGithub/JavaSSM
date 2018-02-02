@@ -586,15 +586,15 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		//设置其它字段为空
-		userBase.setEmail('---');
-		userBase.setRealname('---');
+		userBase.setEmail("---");
+		userBase.setRealname("---");
 		userBase.setSex(0);
-		userBase.setCardNum('---');
-		userBase.setCardAddress('---');
-		userBase.setCardNation('---');
-		userBase.setCardOffice('---');
-		userBase.setCardExpire('---');
-		userBase.setCardPic('---');
+		userBase.setCardNum("---");
+		userBase.setCardAddress("---");
+		userBase.setCardNation("---");
+		userBase.setCardOffice("---");
+		userBase.setCardExpire("---");
+		userBase.setCardPic("---");
 		
 		return userBase;
 	}
