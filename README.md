@@ -35,6 +35,7 @@
 3. 编译打包
 
 ```
+ /**  -Pdev 开发环境包   | -Ptest 测试环境包  | -Ponline 线上环境包  **/
+ 
  bobo@migang:admin$ mvn clean package -Pdev  -Dmaven.test.skip=true 
- // -Pdev 开发环境包   | -Ptest 测试环境包  | -Ponline 线上环境包
 ```
