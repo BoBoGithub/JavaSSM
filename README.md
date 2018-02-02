@@ -28,4 +28,13 @@
  bobo@migang:admin$ cd JavaSSM
 ```
 
-2. 
+2. 根据自己环境修改配置文件
+
+<img src="https://github.com/BoBoGithub/JavaSSM/blob/master/image/Config.png?raw=true">
+
+3. 编译打包
+
+```
+ bobo@migang:admin$ mvn clean package -Pdev  -Dmaven.test.skip=true 
+ // -Pdev 开发环境包   | -Ptest 测试环境包  | -Ponline 线上环境包
+```
