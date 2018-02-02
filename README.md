@@ -22,6 +22,10 @@
 1. 创建程序存放目录
 
 ```
-   mkdir /var/www/admin
-   git clone https://github.com/BoBoGithub/JavaSSM.git
+ bobo@migang:/$ mkdir /var/www/admin
+ bobo@migang:/$ cd /var/www/admin
+ bobo@migang:admin$ git clone https://github.com/BoBoGithub/JavaSSM.git
+ bobo@migang:admin$ cd JavaSSM
 ```
+
+2. 
