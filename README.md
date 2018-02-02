@@ -48,7 +48,7 @@
 ```
 <img src="https://github.com/BoBoGithub/JavaSSM/blob/master/image/pack.png?raw=true">
 
-4. 启动Tomcat服务器运行[或再用nginx做一个方向代理]
+4. 启动Tomcat服务器运行[或再用nginx做一个反向代理]
 ```
  bobo@migang:admin$ cd /usr/local/tomcat/bin/
  bobo@migang:admin$ ./startup.sh
