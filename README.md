@@ -1,10 +1,10 @@
-# Java的Web项目(SSM)实例 附带App加密接口通信
+# Java的Web项目(SSM)框架实例 附带App加密接口通信
 
 #### 备注：下边会有配置搭建运行步骤，本项目全是从网上学习后的结果，感谢互联网上不吝分享的coder。
 
 ## 1. 实现相关功能
 
-后台登录/注册/用户管理/权限管理/菜单管理
+后台登录/注册/用户管理/权限管理/菜单管理等等
 
 ## 2. 本项目局部效果截图：
 
@@ -44,7 +44,7 @@
 ```
 <img src="https://github.com/BoBoGithub/JavaSSM/blob/master/image/pack.png?raw=true">
 
-4. 启动Tomcat服务器运行
+4. 启动Tomcat服务器运行[或再用nginx做一个方向代理]
 ```
  bobo@migang:admin$ cd /usr/local/tomcat/bin/
  bobo@migang:admin$ ./startup.sh
@@ -53,3 +53,7 @@
 5. 浏览器访问 http://localhost:8080/admin
 
 <img src="https://github.com/BoBoGithub/JavaSSM/blob/master/image/Login.png?raw=true">
+
+
+## 备注：
+当前项目只是实现了后台基本的管理用户功能，后续若有激情会再过来迭代更新。
