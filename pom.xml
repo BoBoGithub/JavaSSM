@@ -79,45 +79,45 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>4.3.17.RELEASE</version>
+			<version>5.0.0.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-			<version>4.3.17.RELEASE</version>
+			<version>5.0.0.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>4.3.17.RELEASE</version>
+			<version>5.0.0.RELEASE</version>
 		</dependency>
 		<!-- 2)Spring DAO层 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-			<version>4.3.17.RELEASE</version>
+			<version>5.0.0.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
-			<version>4.3.17.RELEASE</version>
+			<version>5.0.0.RELEASE</version>
 		</dependency>
 		<!-- 3)Spring web -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>4.3.17.RELEASE</version>
+			<version>5.0.0.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>4.3.17.RELEASE</version>
+			<version>5.0.0.RELEASE</version>
 		</dependency>
 		<!-- 4)Spring test -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>4.3.17.RELEASE</version>
+			<version>5.0.0.RELEASE</version>
 		</dependency>
 
 		<!-- Map工具类 -->
@@ -176,7 +176,7 @@
 		    <groupId>com.rabbitmq</groupId>
 		    <artifactId>amqp-client</artifactId>
 		    <!--<version>3.5.1</version>-->
-		    <version>5.2.0</version>
+		    <version>5.4.0</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.springframework.amqp</groupId>
